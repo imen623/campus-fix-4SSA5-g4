@@ -1,0 +1,16 @@
+package tn.esprit.campusfix.lostfound.client.dto;
+
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class UserDTO {
+    private Long id;
+    private String nom;
+    private String prenom;
+    private String email;
+    private String role;
+}
