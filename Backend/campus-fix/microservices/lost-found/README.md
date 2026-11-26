@@ -24,13 +24,11 @@ Microservice Spring Boot pour la gestion des **objets perdus et trouvés** sur l
 
 ## Démarrage rapide
 
-### 1. Démarrer MySQL dans XAMPP
+### Ordre de démarrage recommandé
 
-Ouvrir le panneau de contrôle XAMPP et cliquer **Start** à côté de **MySQL**.
-
-La base de données `lostfound_db` sera créée automatiquement au premier démarrage.
-
-### 2. Lancer le microservice
+1. **MySQL (XAMPP)** : Ouvrir le panneau de contrôle XAMPP et démarrer **MySQL** (port `3306`). La base `lostfound_db` est créée automatiquement au premier démarrage.
+2. **Eureka Server** : Démarrer le serveur de découverte Eureka sur le port `8761` (`http://localhost:8761/eureka`).
+3. **Microservice `lost-found`** : Lancer ce microservice sur le port `8085`.
 
 ```bash
 # Depuis le répertoire lost-found/
@@ -43,9 +41,29 @@ Ou sous Windows :
 mvnw.cmd spring-boot:run
 ```
 
-L'application démarre sur le **port 8085**.
+L'application démarre sur le **port 8085** et s'enregistre auprès d'Eureka.
 
-### 3. Accéder à Swagger UI
+### Lancer une seconde instance (multi-instance)
+
+Pour démarrer une seconde instance en parallèle (par exemple sur le port `8095`) :
+
+```bash
+./mvnw spring-boot:run -Dspring-boot.run.arguments="--server.port=8095"
+```
+
+Ou depuis le JAR compilé :
+
+```bash
+java -jar target/lost-found-0.0.1-SNAPSHOT.jar --server.port=8095
+```
+
+### Actuator & Monitoring
+
+- **Health** : `http://localhost:8085/actuator/health` *(inclut `db` et le statut personnalisé `integration`)*
+- **Info** : `http://localhost:8085/actuator/info`
+- **Metrics** : `http://localhost:8085/actuator/metrics`
+
+### Accéder à Swagger UI
 
 ```
 http://localhost:8085/swagger-ui.html
